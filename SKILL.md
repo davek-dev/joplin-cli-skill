@@ -13,7 +13,7 @@ If Joplin is not configured with WebDAV, configure it:
 
 ```bash
 joplin config sync.target 6
-joplin config sync.6.url "https://your-webdav-server/path"
+joplin config sync.6.path "https://your-webdav-server/path"
 joplin config sync.6.username "your-username"
 joplin config sync.6.password "your-password"
 joplin sync
@@ -21,49 +21,48 @@ joplin sync
 
 ## Common Commands
 
-### Search Notes
+### List Notebooks and Notes
 ```bash
-joplin search "query"
-joplin search "query" --folder "folder-name"
-```
-
-### List Notebooks/Folders
-```bash
-joplin ls-folders
-joplin notebook ls
+joplin ls                          # List notebooks
+joplin ls "Notebook Name"          # List notes in a notebook
+joplin status                      # Show sync status and note counts
 ```
 
 ### Read Note
 ```bash
-joplin cat <note-id>
-joplin note <note-id>
+joplin cat <note-id>               # Display note content
+joplin note <note-id>              # Open note in editor
 ```
 
 ### Create Note
 ```bash
-joplin mknote "Note Title"
-joplin mkbook "New Notebook"
+joplin mknote "Note Title"         # Create note in default notebook
+joplin mknote "Note Title" --notebook "Notebook Name"
+joplin mkbook "New Notebook"       # Create new notebook
 ```
 
 ### Edit Note
 ```bash
-joplin edit --note <note-id>
+joplin edit --note <note-id>       # Edit note in editor
 ```
 
 ### Delete Note
 ```bash
-joplin rmnote <note-id>
+joplin rmnote <note-id>            # Delete note
+joplin rmbook "Notebook Name"      # Delete notebook
 ```
 
 ### Todos
 ```bash
-joplin todos
-joplin todo <note-id>
+joplin todos                       # List all todos
+joplin todo <note-id>              # Toggle todo status
+joplin done <note-id>              # Mark as done
+joplin undone <note-id>            # Mark as not done
 ```
 
 ### Sync
 ```bash
-joplin sync
+joplin sync                        # Sync with WebDAV server
 ```
 
 ### Export
@@ -73,14 +72,6 @@ joplin export <note-id> --format html
 joplin export <note-id> --format pdf
 ```
 
-## Note ID Retrieval
+### Search
 
-Get note ID from search:
-```bash
-joplin search "query" --short
-```
-
-Get folder ID:
-```bash
-joplin ls-folders --short
-```
+Note: `joplin search` is only available in GUI mode. Use `joplin ls` and pipe to grep instead.
