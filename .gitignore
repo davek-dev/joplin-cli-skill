@@ -1,0 +1,4 @@
+# Joplin
+.config/joplin/
+*.db
+*.sqlite
