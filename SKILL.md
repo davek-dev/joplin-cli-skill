@@ -1,6 +1,6 @@
 ---
 name: joplin
-description: Interact with Joplin notes via CLI. Use when user wants to: (1) Search, read, create, edit, or delete notes, (2) List notebooks or folders, (3) Manage todos, (4) Sync notes with WebDAV, (5) Export notes to PDF/HTML/Markdown, (6) Maintain kanban formatting in kanban plugin notes
+description: Interact with Joplin notes via CLI. Use for reading, creating, editing notes and managing todos. Supports WebDAV sync and kanban-formatted notes.
 ---
 
 # Joplin CLI Skill
@@ -10,8 +10,6 @@ Use `joplin` CLI to interact with Joplin notes.
 ## ⚠️ Important: Use CLI, Not SQL
 
 **Always use the `joplin` CLI for editing notes.** Do not modify the SQLite database directly unless absolutely necessary. Direct database edits can cause sync conflicts and data loss.
-
-If CLI import doesn't work as expected, sync and check the results in the Joplin GUI.
 
 ## Setup
 
@@ -37,6 +35,7 @@ joplin status                      # Show sync status and note counts
 ### Read Note
 ```bash
 joplin cat <note-id>               # Display note content
+joplin cat "Note Title"            # Also works with title
 joplin note <note-id>              # Open note in editor
 ```
 
@@ -141,15 +140,4 @@ Result
 
 ### Moving Tasks Between Columns
 
-When moving a task, simply:
-1. Remove the task from its current `##` heading section
-2. Add it under the new column heading (`##` task name under `# Backlog`, `# In progress`, or `# Done`)
-
-Example - moving "Doors Replacement Quote" from "In progress" to "Done":
-```
-# Done
-
-## Doors Replacement Quote
-
-£2870 inc VAT - details here
-```
+When moving a task, simply move the `##` task section from one column to another.
