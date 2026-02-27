@@ -63,7 +63,7 @@ joplin rmbook "Notebook Name"      # Delete notebook
 joplin todos                       # List all todos
 joplin todo <note-id>              # Toggle todo status
 joplin done <note-id>              # Mark as done
-joplin undone <note-id>           # Mark as not done
+joplin undone <note-id>            # Mark as not done
 ```
 
 ### Sync
