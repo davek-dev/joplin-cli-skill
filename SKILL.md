@@ -1,11 +1,17 @@
 ---
 name: joplin
-description: Interact with Joplin notes via CLI. Use when user wants to: (1) Search, read, create, edit, or delete notes, (2) List notebooks or folders, (3) Manage todos, (4) Sync notes with WebDAV, (5) Export notes to PDF/HTML/Markdown
+description: Interact with Joplin notes via CLI. Use when user wants to: (1) Search, read, create, edit, or delete notes, (2) List notebooks or folders, (3) Manage todos, (4) Sync notes with WebDAV, (5) Export notes to PDF/HTML/Markdown, (6) Maintain kanban formatting in kanban plugin notes
 ---
 
 # Joplin CLI Skill
 
 Use `joplin` CLI to interact with Joplin notes.
+
+## ⚠️ Important: Use CLI, Not SQL
+
+**Always use the `joplin` CLI for editing notes.** Do not modify the SQLite database directly unless absolutely necessary. Direct database edits can cause sync conflicts and data loss.
+
+If CLI import doesn't work as expected, sync and check the results in the Joplin GUI.
 
 ## Setup
 
@@ -13,7 +19,7 @@ If Joplin is not configured with WebDAV, configure it:
 
 ```bash
 joplin config sync.target 6
-joplin config sync.6.url "https://your-webdav-server/path"
+joplin config sync.6.path "https://your-webdav-server/path"
 joplin config sync.6.username "your-username"
 joplin config sync.6.password "your-password"
 joplin sync
@@ -21,49 +27,48 @@ joplin sync
 
 ## Common Commands
 
-### Search Notes
+### List Notebooks and Notes
 ```bash
-joplin search "query"
-joplin search "query" --folder "folder-name"
-```
-
-### List Notebooks/Folders
-```bash
-joplin ls-folders
-joplin notebook ls
+joplin ls                          # List notebooks
+joplin ls "Notebook Name"          # List notes in a notebook
+joplin status                      # Show sync status and note counts
 ```
 
 ### Read Note
 ```bash
-joplin cat <note-id>
-joplin note <note-id>
+joplin cat <note-id>               # Display note content
+joplin note <note-id>              # Open note in editor
 ```
 
 ### Create Note
 ```bash
-joplin mknote "Note Title"
-joplin mkbook "New Notebook"
+joplin mknote "Note Title"         # Create note in default notebook
+joplin mknote "Note Title" --notebook "Notebook Name"
+joplin mkbook "New Notebook"       # Create new notebook
 ```
 
 ### Edit Note
 ```bash
-joplin edit --note <note-id>
+joplin edit --note <note-id>       # Edit note in editor
 ```
 
 ### Delete Note
 ```bash
-joplin rmnote <note-id>
+joplin rmnote <note-id>            # Delete note
+joplin rmbook "Notebook Name"      # Delete notebook
 ```
 
 ### Todos
 ```bash
-joplin todos
-joplin todo <note-id>
+joplin todos                       # List all todos
+joplin todo <note-id>              # Toggle todo status
+joplin done <note-id>              # Mark as done
+joplin undone <note-id>           # Mark as not done
 ```
 
 ### Sync
 ```bash
-joplin sync
+joplin sync                        # Sync with WebDAV server
 ```
 
 ### Export
@@ -73,14 +78,78 @@ joplin export <note-id> --format html
 joplin export <note-id> --format pdf
 ```
 
-## Note ID Retrieval
+### Search
 
-Get note ID from search:
-```bash
-joplin search "query" --short
+Note: `joplin search` is only available in GUI mode. Use `joplin ls` and pipe to grep instead.
+
+## Kanban Notes (YesYouKan Plugin)
+
+Some notebooks use the YesYouKan kanban plugin for visual kanban boards. These notes have a specific format that **must be preserved** when editing:
+
+### Kanban Format
+
+```markdown
+# Notebook Name
+
+# Backlog
+
+## Task 1
+
+Description here
+
+## Task 2
+
+
+
+# In progress
+
+## Another Task
+
+Details
+
+
+
+# Done
+
+## Completed Task
+
+Result
+
+```kanban-settings
+# Do not remove this block
+```
 ```
 
-Get folder ID:
-```bash
-joplin ls-folders --short
+### ⚠️ Kanban Formatting Rules
+
+1. **Always include the kanban-settings block** at the end of the note with the exact format:
+   ```
+   ```kanban-settings
+   # Do not remove this block
+   ```
+   ```
+
+2. **Use `##` for task headings** (not `#`)
+
+3. **Keep column headings** as `# Backlog`, `# In progress`, `# Done`
+
+4. **Preserve blank lines** between tasks — these are visible in the kanban view
+
+5. **After editing a kanban note, always run `joplin sync`** to upload changes
+
+6. **Verify in Joplin GUI** after major edits to ensure formatting is correct
+
+### Moving Tasks Between Columns
+
+When moving a task, simply:
+1. Remove the task from its current `##` heading section
+2. Add it under the new column heading (`##` task name under `# Backlog`, `# In progress`, or `# Done`)
+
+Example - moving "Doors Replacement Quote" from "In progress" to "Done":
+```
+# Done
+
+## Doors Replacement Quote
+
+£2870 inc VAT - details here
 ```
