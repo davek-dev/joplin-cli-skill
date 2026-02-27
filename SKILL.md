@@ -1,11 +1,17 @@
 ---
 name: joplin
-description: Interact with Joplin notes via CLI. Use when user wants to: (1) Search, read, create, edit, or delete notes, (2) List notebooks or folders, (3) Manage todos, (4) Sync notes with WebDAV, (5) Export notes to PDF/HTML/Markdown
+description: Interact with Joplin notes via CLI. Use when user wants to: (1) Search, read, create, edit, or delete notes, (2) List notebooks or folders, (3) Manage todos, (4) Sync notes with WebDAV, (5) Export notes to PDF/HTML/Markdown, (6) Maintain kanban formatting in kanban plugin notes
 ---
 
 # Joplin CLI Skill
 
 Use `joplin` CLI to interact with Joplin notes.
+
+## ⚠️ Important: Use CLI, Not SQL
+
+**Always use the `joplin` CLI for editing notes.** Do not modify the SQLite database directly unless absolutely necessary. Direct database edits can cause sync conflicts and data loss.
+
+If CLI import doesn't work as expected, sync and check the results in the Joplin GUI.
 
 ## Setup
 
@@ -75,3 +81,75 @@ joplin export <note-id> --format pdf
 ### Search
 
 Note: `joplin search` is only available in GUI mode. Use `joplin ls` and pipe to grep instead.
+
+## Kanban Notes (YesYouKan Plugin)
+
+Some notebooks use the YesYouKan kanban plugin for visual kanban boards. These notes have a specific format that **must be preserved** when editing:
+
+### Kanban Format
+
+```markdown
+# Notebook Name
+
+# Backlog
+
+## Task 1
+
+Description here
+
+## Task 2
+
+
+
+# In progress
+
+## Another Task
+
+Details
+
+
+
+# Done
+
+## Completed Task
+
+Result
+
+```kanban-settings
+# Do not remove this block
+```
+```
+
+### ⚠️ Kanban Formatting Rules
+
+1. **Always include the kanban-settings block** at the end of the note with the exact format:
+   ```
+   ```kanban-settings
+   # Do not remove this block
+   ```
+   ```
+
+2. **Use `##` for task headings** (not `#`)
+
+3. **Keep column headings** as `# Backlog`, `# In progress`, `# Done`
+
+4. **Preserve blank lines** between tasks — these are visible in the kanban view
+
+5. **After editing a kanban note, always run `joplin sync`** to upload changes
+
+6. **Verify in Joplin GUI** after major edits to ensure formatting is correct
+
+### Moving Tasks Between Columns
+
+When moving a task, simply:
+1. Remove the task from its current `##` heading section
+2. Add it under the new column heading (`##` task name under `# Backlog`, `# In progress`, or `# Done`)
+
+Example - moving "Doors Replacement Quote" from "In progress" to "Done":
+```
+# Done
+
+## Doors Replacement Quote
+
+£2870 inc VAT - details here
+```
