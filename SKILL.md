@@ -137,7 +137,7 @@ Result
 
 5. **After editing a kanban note, always run `joplin sync`** to upload changes
 
-6. **Verify in Joplin GUI** after major edits to ensure formatting is correct
+6. **Verify changes with `joplin cat <note-id>`** to ensure formatting is correct
 
 ### Moving Tasks Between Columns
 
