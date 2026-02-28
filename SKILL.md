@@ -47,6 +47,11 @@ joplin mknote "Note Title" --notebook "Notebook Name"
 joplin mkbook "New Notebook"       # Create new notebook
 ```
 
+**Tip:** Always ask the user which notebook to use. Use:
+- `joplin use` — shows current notebook
+- `joplin use "Notebook Name"` — switch to a notebook
+- `joplin ls` — see all notebooks
+
 ### Edit Note
 ```bash
 joplin edit --note <note-id>       # Edit note in editor
