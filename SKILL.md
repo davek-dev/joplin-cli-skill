@@ -30,6 +30,7 @@ joplin sync
 joplin ls                          # List notebooks
 joplin ls "Notebook Name"          # List notes in a notebook
 joplin status                      # Show sync status and note counts
+joplin ls -l                       # List with IDs
 ```
 
 ### Read Note
@@ -49,12 +50,18 @@ joplin mkbook "New Notebook"       # Create new notebook
 ### Edit Note
 ```bash
 joplin edit --note <note-id>       # Edit note in editor
+joplin set <note-id> title "New title"  # Change note title
 ```
 
 ### Delete Note
 ```bash
 joplin rmnote <note-id>            # Delete note
 joplin rmbook "Notebook Name"      # Delete notebook
+```
+
+### Move Notes Between Notebooks
+```bash
+joplin mv "Note Title" "Target Notebook"
 ```
 
 ### Todos
@@ -77,11 +84,34 @@ joplin export <note-id> --format html
 joplin export <note-id> --format pdf
 ```
 
+### Import
+```bash
+joplin import /path/to/note.md --notebook "Notebook Name"
+```
+
 ### Search
 
 Note: `joplin search` is only available in GUI mode. Use `joplin ls` and pipe to grep instead.
 
-## Interactive Shell Commands
+## All Joplin Commands
+
+```
+attach, batch, cat, config, cp, done, e2ee, edit, export, geoloc, help, 
+import, ls, mkbook, mknote, mktodo, mv, ren, restore, rmbook, rmnote, 
+server, set, share, status, sync, tag, todo, undone, use, version
+```
+
+### Referencing Notes and Notebooks
+
+A note or notebook can be referred to by:
+- **Title**: `"Note Title"`
+- **ID**: `fe889` (get from `joplin ls -l`)
+- **Shortcuts**:
+  - `$n` — Currently selected note
+  - `$b` — Currently selected notebook
+  - `$c` — Currently selected item
+
+## Interactive Shell Mode
 
 Joplin can run interactively (like a shell). Start with just `joplin`:
 
@@ -89,7 +119,7 @@ Joplin can run interactively (like a shell). Start with just `joplin`:
 joplin                          # Start interactive mode
 ```
 
-### Common Shell Commands (prefix with `:`)
+### Shell Commands (prefix with `:`)
 
 | Command | Description |
 |---------|-------------|
@@ -98,32 +128,11 @@ joplin                          # Start interactive mode
 | `:help` | Show help |
 | `:open <note-id>` | Open a note |
 
-### Switch Notebooks
-```bash
-joplin use "Notebook Name"      # Switch to a notebook
-joplin use                      # Show current notebook
-```
-
-### Move Notes Between Notebooks
-```bash
-joplin mv "Note Title" "Target Notebook"
-```
-
-### Import/Export
-```bash
-joplin import /path/to/note.md --notebook "Notebook Name"
-joplin export <note-id> --format md --path /output/
-```
-
-## Creating and Editing Notes via Shell
-
-Shell commands can also be used directly from a shell. To view all available commands:
-```bash
-joplin help all
-```
-
-### Referencing Notes
-To reference a note, notebook or tag you can either use the ID (run `joplin ls -l` to view IDs) or by title.
+### Shell Mode Shortcuts
+- `e` — Edit current note
+- `i` — Insert new note
+- `Space` — Select item
+- `Enter` — Open note
 
 ### Example Workflow
 ```bash
@@ -141,17 +150,7 @@ joplin ls -l
 
 # Edit a note's title
 joplin set <note-id> title "New title"
-
-# Open note for editing in $EDITOR
-joplin edit --note <note-id>
-# Or in shell mode: press 'e' on selected note
 ```
-
-### Shell Mode Shortcuts
-- `e` — Edit current note
-- `i` — Insert new note
-- `Space` — Select item
-- `Enter` — Open note
 
 ## Kanban Notes (YesYouKan Plugin)
 
