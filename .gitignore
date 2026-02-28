@@ -2,3 +2,4 @@
 .config/joplin/
 *.db
 *.sqlite
+data/
