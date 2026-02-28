@@ -81,6 +81,78 @@ joplin export <note-id> --format pdf
 
 Note: `joplin search` is only available in GUI mode. Use `joplin ls` and pipe to grep instead.
 
+## Interactive Shell Commands
+
+Joplin can run interactively (like a shell). Start with just `joplin`:
+
+```bash
+joplin                          # Start interactive mode
+```
+
+### Common Shell Commands (prefix with `:`)
+
+| Command | Description |
+|---------|-------------|
+| `:sync` | Sync with WebDAV server |
+| `:quit` or `:q` | Exit Joplin |
+| `:help` | Show help |
+| `:open <note-id>` | Open a note |
+
+### Switch Notebooks
+```bash
+joplin use "Notebook Name"      # Switch to a notebook
+joplin use                      # Show current notebook
+```
+
+### Move Notes Between Notebooks
+```bash
+joplin mv "Note Title" "Target Notebook"
+```
+
+### Import/Export
+```bash
+joplin import /path/to/note.md --notebook "Notebook Name"
+joplin export <note-id> --format md --path /output/
+```
+
+## Creating and Editing Notes via Shell
+
+Shell commands can also be used directly from a shell. To view all available commands:
+```bash
+joplin help all
+```
+
+### Referencing Notes
+To reference a note, notebook or tag you can either use the ID (run `joplin ls -l` to view IDs) or by title.
+
+### Example Workflow
+```bash
+# Create a notebook
+joplin mkbook "My notebook"
+
+# Switch to it
+joplin use "My notebook"
+
+# Create a note
+joplin mknote "My note"
+
+# View notes with IDs
+joplin ls -l
+
+# Edit a note's title
+joplin set <note-id> title "New title"
+
+# Open note for editing in $EDITOR
+joplin edit --note <note-id>
+# Or in shell mode: press 'e' on selected note
+```
+
+### Shell Mode Shortcuts
+- `e` — Edit current note
+- `i` — Insert new note
+- `Space` — Select item
+- `Enter` — Open note
+
 ## Kanban Notes (YesYouKan Plugin)
 
 Some notebooks use the YesYouKan kanban plugin for visual kanban boards. These notes have a specific format that **must be preserved** when editing:
