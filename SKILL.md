@@ -47,7 +47,7 @@ joplin mknote "Note Title" --notebook "Notebook Name"
 joplin mkbook "New Notebook"       # Create new notebook
 ```
 
-**Tip:** If you don't specify a notebook, it will use the current notebook. Use:
+**Tip:** Always ask the user which notebook to use. Use:
 - `joplin use` — shows current notebook
 - `joplin use "Notebook Name"` — switch to a notebook
 - `joplin ls` — see all notebooks
